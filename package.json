@@ -22,7 +22,7 @@
     "level": "1.4.0",
     "multileveldown": "1.1.2",
     "subleveldown": "2.1.0",
-    "websocket-stream": "2.1.0"
+    "websocket-stream": "2.2.0"
   },
   "license": "MIT"
 }
