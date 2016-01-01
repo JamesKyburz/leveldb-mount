@@ -6,6 +6,8 @@ leveldb with backend + optional repl built with [subleveldown] and [multileveldo
 
 # usage
 
+env variable `DB_PATH` needs to be set
+
 server.js
 ```javascript
 var leveldb = require('leveldb-mount')
@@ -26,7 +28,7 @@ db.set...
 
 repl (optional)
 
-To use the repl you need to have set env variable REPL_CREDENTIALS
+To use the repl you need to have set env variable `REPL_CREDENTIALS`
 
 browser
 
