@@ -17,7 +17,7 @@
     "prepublish": "standard"
   },
   "dependencies": {
-    "browserify": "12.0.1",
+    "browserify": "13.0.0",
     "debug": "2.2.0",
     "level": "1.4.0",
     "multileveldown": "1.1.2",
