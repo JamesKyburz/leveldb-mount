@@ -17,7 +17,7 @@ leveldb.server(httpServer)
 routes.js using [http-hash] (but can use router of choice)
 ```javascript
 var leveldb = require('leveldb-mount')
-var routes = leveldb.routes
+var routes = leveldb.routes()
 router.set('/repl.html', routes.html)
 router.set('/repl.js', routes.js)
 var db = leveldb.db()
