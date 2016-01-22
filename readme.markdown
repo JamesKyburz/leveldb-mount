@@ -18,8 +18,8 @@ routes.js using [http-hash] (but can use router of choice)
 ```javascript
 var leveldb = require('leveldb-mount')
 var routes = leveldb.routes
-router.set('/repl.html', routes.html
-router.set('/repl.js', routes.js
+router.set('/repl.html', routes.html)
+router.set('/repl.js', routes.js)
 var db = leveldb.db()
 var inbox = leveldb.db().namespace('inbox')
 inbox.set...
