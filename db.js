@@ -18,7 +18,7 @@ function create () {
     if (sublevels[namespace]) return sublevels[namespace]
     var value = sub(db, namespace, opt)
     value.on('put', (key, value) => debug(`db:put:${namespace} key: %s value: %j`, key, value))
-    value.on('error', err => debug(`db:put:${namespace} error: %j`, err))
+    value.on('error', (err) => debug(`db:put:${namespace} error: %j`, err))
     sublevels[namespace] = value
     return value
   }

@@ -7,5 +7,5 @@ var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
 var url = `${protocol}://${window.location.host}/repl`
 var ws = websocket(url)
 ws.pipe(db.connect()).pipe(ws)
-window.sublevel = name => sub(db, name, opt)
+window.sublevel = (name) => sub(db, name, opt)
 window.db = db

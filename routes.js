@@ -1,12 +1,13 @@
 var replAuth = require('./repl_auth')
 var browserify = require('browserify')
+var path = require('path')
 
 module.exports = routes
 
 function routes () {
   return {
     html: handleAuth((q, r, params) => r.end('<script src="/repl.js/"></script>')),
-    js: handleAuth((q, r, params) => browserify({ debug: true }).add(__dirname + '/repl.js/').bundle().pipe(r))
+    js: handleAuth((q, r, params) => browserify({ debug: true }).add(path.join(__dirname, '/repl.js/')).bundle().pipe(r))
   }
 }
 
