@@ -1,4 +1,4 @@
-var level = require('level')
+var level = require('level-party')
 var sub = require('subleveldown')
 var debug = require('debug')('db')
 var sublevels
