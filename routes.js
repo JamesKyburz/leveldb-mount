@@ -6,8 +6,8 @@ module.exports = routes
 
 function routes () {
   return {
-    html: handleAuth((q, r, params) => r.end('<script src="/repl.js/"></script>')),
-    js: handleAuth((q, r, params) => browserify({ debug: true }).add(path.join(__dirname, '/repl.js/')).bundle().pipe(r))
+    html: handleAuth((q, r, params) => r.end('<script src="/repl.js"></script>')),
+    js: handleAuth((q, r, params) => browserify({ debug: true }).add(path.join(__dirname, '/repl.js')).bundle().pipe(r))
   }
 }
 
