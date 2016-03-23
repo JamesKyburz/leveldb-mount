@@ -10,7 +10,7 @@ function create (opt) {
   opt = options(opt)
   if (!opt.dbPath) throw new Error('dbPath not specified')
   if (dbs[opt.dbPath]) return dbs[opt.dbPath].db
-  var db = level(opt.dbPath, opt)
+  var db = level(opt.dbPath, opt.encoding)
   dbs[opt.dbPath] = {
     db: db,
     sublevels: {}
@@ -18,7 +18,7 @@ function create (opt) {
   var sublevels = dbs[opt.dbPath].sublevels
   var add = (namespace) => {
     if (sublevels[namespace]) return sublevels[namespace]
-    var value = sub(db, namespace, opt)
+    var value = sub(db, namespace, opt.encoding)
     value.on('put', (key, value) => debug(`db:put:${namespace} key: %s value: %j`, key, value))
     value.on('error', (err) => debug(`db:put:${namespace} error: %j`, err))
     sublevels[namespace] = value
