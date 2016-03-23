@@ -16,7 +16,6 @@ function create (opt) {
     sublevels: {}
   }
   var sublevels = dbs[opt.dbPath].sublevels
-  if (db) return db
   var add = (namespace) => {
     if (sublevels[namespace]) return sublevels[namespace]
     var value = sub(db, namespace, opt)
