@@ -4,36 +4,64 @@ leveldb with backend + optional repl built with [subleveldown] and [multileveldo
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-# usage
-
-env variable `DB_PATH` needs to be set
+# server
 
 server.js
 ```javascript
 var leveldb = require('leveldb-mount')
-leveldb.server(httpServer)
+leveldb.server(httpServer, opt) // see options
 ```
 
+`server+repl`
+```javascript
+var leveldb = require('leveldb-mount')
+leveldb.server(port, opt) // see options
+```
+
+Note if no credentials are given the repl is not available.
+
+# routes
 routes.js using [http-hash] (but can use router of choice)
 ```javascript
 var leveldb = require('leveldb-mount')
-var routes = leveldb.routes()
+var routes = leveldb.routes(opt) // see options
 router.set('/repl.html', routes.html)
 router.set('/repl.js', routes.js)
-var db = leveldb.db()
-var inbox = leveldb.db().namespace('inbox')
+```
+
+# db
+```javascript
+var db = leveldb.db(opt) // see options
+var inbox = db.namespace('inbox')
 inbox.set...
 db.set...
 ```
 
-repl (optional)
+# optional repl
+navigation to /repl.html and `window.db` and `window.sublevel` will now be set.
 
-To use the repl you need to have set env variable `REPL_CREDENTIALS`
+# options
+```javascript
+var opt = {
+  dbPath: 'path',
+  replCredentials: 'user:pass',
+  encoding: {
+    keyEncoding: 'utf8',
+    valueEncoding: 'json'
+  }
+}
+```
 
-browser
+* `opt.replCredentials` is only needed if you want the repl.
+* `opt.encoding` defaults to `utf8` for keys and `json` for values.
+* `opt.dbPath` has to contain a value.
 
-navigation to /repl.html
-`window.db` and `window.sublevel` will now be set.
+`encoding` is passed to the repl!
+
+# example
+```
+node example/index.js
+```
 
 [http-hash]: https://github.com/Matt-Esch/http-hash
 [subleveldown]: https://github.com/mafintosh/subleveldown

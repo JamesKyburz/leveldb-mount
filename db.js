@@ -1,19 +1,22 @@
 var level = require('level-party')
 var sub = require('subleveldown')
 var debug = require('debug')('db')
-var sublevels
-
-if (!process.env.DB_PATH) throw new Error('DB_PATH not specified')
-
-var opt = { keyEncoding: 'utf8', valueEncoding: 'json' }
-var db = level(process.env.DB_PATH, opt)
+var options = require('./options')
+var dbs = {}
 
 module.exports = create
-create.db = db
 
-function create () {
-  if (sublevels) return sublevels
-  sublevels = {}
+function create (opt) {
+  opt = options(opt)
+  if (!opt.dbPath) throw new Error('dbPath not specified')
+  if (dbs[opt.dbPath]) return dbs[opt.dbPath].db
+  var db = level(opt.dbPath, opt)
+  dbs[opt.dbPath] = {
+    db: db,
+    sublevels: {}
+  }
+  var sublevels = dbs[opt.dbPath].sublevels
+  if (db) return db
   var add = (namespace) => {
     if (sublevels[namespace]) return sublevels[namespace]
     var value = sub(db, namespace, opt)
@@ -22,6 +25,6 @@ function create () {
     sublevels[namespace] = value
     return value
   }
-  sublevels.namespace = add
-  return sublevels
+  db.namespace = add
+  return db
 }

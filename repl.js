@@ -1,7 +1,7 @@
 var websocket = require('websocket-stream')
 var multileveldown = require('multileveldown')
 var sub = require('subleveldown')
-var opt = { keyEncoding: 'utf8', valueEncoding: 'json' }
+var opt = { encoding: 'replacedbyserver' }
 var db = multileveldown.client(opt)
 var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
 var url = `${protocol}://${window.location.host}/repl`
