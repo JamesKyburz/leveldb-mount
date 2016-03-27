@@ -6,11 +6,15 @@ var dbs = {}
 
 module.exports = create
 
-function create (opt) {
-  opt = options(opt)
+function create (name, opt) {
+  opt = options(name, opt)
   if (!opt.dbPath) throw new Error('dbPath not specified')
+  var encoding = {
+    keyEncoding: opt.keyEncoding,
+    valueEncoding: opt.valueEncoding
+  }
   if (dbs[opt.dbPath]) return dbs[opt.dbPath].db
-  var db = level(opt.dbPath, opt.encoding)
+  var db = level(opt.dbPath, encoding)
   dbs[opt.dbPath] = {
     db: db,
     sublevels: {}
@@ -18,7 +22,7 @@ function create (opt) {
   var sublevels = dbs[opt.dbPath].sublevels
   var add = (namespace) => {
     if (sublevels[namespace]) return sublevels[namespace]
-    var value = sub(db, namespace, opt.encoding)
+    var value = sub(db, namespace, encoding)
     value.on('put', (key, value) => debug(`db:put:${namespace} key: %s value: %j`, key, value))
     value.on('error', (err) => debug(`db:put:${namespace} error: %j`, err))
     sublevels[namespace] = value

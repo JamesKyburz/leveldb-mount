@@ -6,8 +6,8 @@ var replaceStream = require('replacestream')
 
 module.exports = routes
 
-function routes (opt) {
-  opt = options(opt)
+function routes (name, opt) {
+  opt = options(name, opt)
   return {
     html: handleAuth((q, r, params) => r.end('<script src="/repl.js"></script>'), opt),
     js: handleAuth(
@@ -15,7 +15,7 @@ function routes (opt) {
         browserify({ debug: true })
         .add(path.join(__dirname, '/repl.js'))
         .bundle()
-        .pipe(replaceStream('{ encoding: \'replacedbyserver\' }', JSON.stringify(opt.encoding)))
+        .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify({ keyEncoding: opt.keyEncoding, valueEncoding: opt.valueEncoding })))
         .pipe(r)
       , opt
     )

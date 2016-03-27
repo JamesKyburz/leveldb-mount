@@ -8,8 +8,8 @@ var routes = require('./routes')
 
 module.exports = create
 
-function create (server, opt) {
-  opt = options(opt)
+function create (server, name, opt) {
+  opt = options(name, opt)
   if (typeof server === 'number') return create(createServer(server, opt), opt)
   websocket.createServer({ server: server }, handleWs)
 
