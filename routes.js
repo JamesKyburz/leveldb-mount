@@ -15,7 +15,7 @@ function routes (name, opt) {
         browserify({ debug: true })
         .add(path.join(__dirname, '/repl.js'))
         .bundle()
-        .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify({ keyEncoding: opt.keyEncoding, valueEncoding: opt.valueEncoding })))
+        .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify({ keyEncoding: opt.keyEncoding, valueEncoding: opt.valueEncoding, retry: true })))
         .pipe(r)
       , opt
     )
