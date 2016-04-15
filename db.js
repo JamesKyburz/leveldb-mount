@@ -10,8 +10,8 @@ function create (name, opt) {
   opt = options(name, opt)
   if (!opt.dbPath) throw new Error('dbPath not specified')
   var encoding = {
-    keyEncoding: opt.keyEncoding,
-    valueEncoding: opt.valueEncoding
+    keyEncoding: opt.encoding.keyEncoding,
+    valueEncoding: opt.encoding.valueEncoding
   }
   if (dbs[opt.dbPath]) return dbs[opt.dbPath].db
   var db = level(opt.dbPath, encoding)

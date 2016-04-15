@@ -6,8 +6,10 @@ function options (name, opt) {
     name = ''
   }
   return Object.assign({
-    keyEncoding: 'utf8',
-    valueEncoding: 'json',
+    encoding: {
+      keyEncoding: 'utf8',
+      valueEncoding: 'json'
+    },
     dbPath: name || '',
     replCredentials: ''
   }, opt || {})

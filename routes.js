@@ -8,6 +8,7 @@ module.exports = routes
 
 function routes (name, opt) {
   opt = options(name, opt)
+  var replaceOptions = { keyEncoding: opt.encoding.keyEncoding, valueEncoding: opt.encoding.valueEncoding, retry: true }
   return {
     html: handleAuth((q, r, params) => r.end('<script src="/repl.js"></script>'), opt),
     js: handleAuth(
@@ -15,7 +16,7 @@ function routes (name, opt) {
         browserify({ debug: true })
         .add(path.join(__dirname, '/repl.js'))
         .bundle()
-        .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify({ keyEncoding: opt.keyEncoding, valueEncoding: opt.valueEncoding, retry: true })))
+        .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify(replaceOptions)))
         .pipe(r)
       , opt
     )
