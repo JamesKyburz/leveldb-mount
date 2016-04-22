@@ -16,12 +16,19 @@ var opt = 'replacedbyserver'
     db: memdown
   })
   var db = multileveldown.server(cacheDb)
+  var remoteDb = multileveldown.client(opt)
+  remote = remoteDb.connect()
   ws.on('error', ws.destroy.bind(ws))
   ws.on('close', function () {
     db.destroy()
+    remote.destroy()
     setTimeout(connect, 3000)
   })
   ws.on('data', db.write.bind(db))
   db.on('data', ws.write.bind(ws))
+
+  ws.on('data', remote.write.bind(remote))
+  remote.on('data', ws.write.bind(ws))
   window.db = cacheDb
+  window.remote = remoteDb
 })()

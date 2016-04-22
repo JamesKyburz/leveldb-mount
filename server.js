@@ -18,7 +18,8 @@ function create (server, name, opt) {
       if (error) {
         stream.socket.emit('error', error)
       } else {
-        var remote = multileveldown.client(options.encoding)
+        var remote = multileveldown.client(opt.encoding)
+        var local = multileveldown.server(db(opt))
         var remoteStream = remote.connect()
         setTimeout(function () {
           remote.put('test', 10)
@@ -28,6 +29,9 @@ function create (server, name, opt) {
         }, 2000)
         remoteStream.on('data', stream.write.bind(stream))
         stream.on('data', remoteStream.write.bind(remoteStream))
+
+        local.on('data', stream.write.bind(stream))
+        stream.on('data', local.write.bind(local))
         //stream.pipe(multileveldown.server(db(opt))).pipe(stream)
       }
     })
