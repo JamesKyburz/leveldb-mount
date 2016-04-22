@@ -21,6 +21,7 @@ var opt = 'replacedbyserver'
     db.destroy()
     setTimeout(connect, 3000)
   })
-  ws.pipe(db).pipe(ws)
+  ws.on('data', db.write.bind(db))
+  db.on('data', ws.write.bind(ws))
   window.db = cacheDb
 })()
