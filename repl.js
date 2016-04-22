@@ -17,7 +17,7 @@ var opt = 'replacedbyserver'
   })
   var db = multileveldown.server(cacheDb)
   var remoteDb = multileveldown.client(opt)
-  remote = remoteDb.connect()
+  var remote = remoteDb.connect()
   ws.on('error', ws.destroy.bind(ws))
   ws.on('close', function () {
     db.destroy()
