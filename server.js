@@ -19,13 +19,15 @@ function create (server, name, opt) {
         stream.socket.emit('error', error)
       } else {
         var remote = multileveldown.client(options.encoding)
+        var remoteStream = remote.connect()
         setTimeout(function () {
           remote.put('test', 10)
           remote.put('test1', 11)
           remote.put('test2', 12)
           remote.put('test3', 13)
         }, 2000)
-        stream.pipe(remote.connect()).pipe(stream)
+        remoteStream.on('data', stream.write.bind(stream))
+        stream.on('data', remoteStream.write.bind(remoteStream))
         //stream.pipe(multileveldown.server(db(opt))).pipe(stream)
       }
     })
