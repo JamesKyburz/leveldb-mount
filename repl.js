@@ -1,20 +1,24 @@
 var websocket = require('websocket-stream')
 var multileveldown = require('multileveldown')
 var sub = require('subleveldown')
+var memdown = require('memdown')
 var opt = 'replacedbyserver'
-var db = multileveldown.client(opt)
 
 ;(function connect () {
   var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
   var url = `${protocol}://${window.location.host}/repl`
   var ws = websocket(url)
-  var remote = db.connect()
+  var localDb = memdown(opt)
+  var db = multileveldown.server({
+    isOpen: () => true,
+    isClosed: () => false,
+    db: localDb
+  })
   ws.on('error', ws.destroy.bind(ws))
   ws.on('close', function () {
-    remote.destroy()
+    db.destroy()
     setTimeout(connect, 3000)
   })
-  ws.pipe(remote).pipe(ws)
-  window.sublevel = (name) => sub(db, name, opt)
-  window.db = db
+  ws.pipe(db).pipe(ws)
+  window.db = localDb
 })()
