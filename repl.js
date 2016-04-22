@@ -1,6 +1,7 @@
 var websocket = require('websocket-stream')
 var multileveldown = require('multileveldown')
 var sub = require('subleveldown')
+var levelup = require('levelup')
 var memdown = require('memdown')
 var opt = 'replacedbyserver'
 
@@ -9,16 +10,17 @@ var opt = 'replacedbyserver'
   var url = `${protocol}://${window.location.host}/repl`
   var ws = websocket(url)
   var localDb = memdown(opt)
-  var db = multileveldown.server({
-    isOpen: () => true,
-    isClosed: () => false,
-    db: localDb
+  var cacheDb = levelup('cachedb', {
+    keyEncoding: opt.keyEncoding,
+    valueEncoding: opt.valueEncoding,
+    db: memdown
   })
+  var db = multileveldown.server(cacheDb)
   ws.on('error', ws.destroy.bind(ws))
   ws.on('close', function () {
     db.destroy()
     setTimeout(connect, 3000)
   })
   ws.pipe(db).pipe(ws)
-  window.db = localDb
+  window.db = cacheDb
 })()

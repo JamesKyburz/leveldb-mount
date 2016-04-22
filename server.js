@@ -21,6 +21,9 @@ function create (server, name, opt) {
         var remote = multileveldown.client(options.encoding)
         setTimeout(function () {
           remote.put('test', 10)
+          remote.put('test1', 11)
+          remote.put('test2', 12)
+          remote.put('test3', 13)
         }, 2000)
         stream.pipe(remote.connect()).pipe(stream)
         //stream.pipe(multileveldown.server(db(opt))).pipe(stream)
