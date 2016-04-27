@@ -1,13 +1,12 @@
 var auth = require('./auth')
 var websocket = require('websocket-stream')
 var multileveldown = require('multileveldown')
-var leveldown = require('multileveldown/leveldown')
 var http = require('http')
 var db = require('./db')
 var options = require('./options')
 var eos = require('end-of-stream')
 var routes = require('./routes')
-var EventEmitter = require('events')
+var rangeEmitter = require('range-emitter')
 
 module.exports = create
 
@@ -15,35 +14,64 @@ function create (server, name, opt) {
   opt = options(name, opt)
   if (typeof server === 'number') return create(createServer(server, opt), opt)
 
-  var dbInstance = db(opt)
-  var changes = onChanges(dbInstance)
+  function onChange (re, key, type) {
+    if (re.subscriptionExists(key)) {
+      re.publish(key.toString(), type)
+    }
+  }
 
-  changes.on('change', (key, value) => {
-    console.log('change!!!', key, value)
+  var emitters = []
+
+  var dbInstance = db(opt)
+
+  var re = rangeEmitter()
+
+  re.subscribe('*', function (key, type) {
+    emitters.forEach(function (e) {
+      onChange(e, key, type)
+    })
   })
+
+  var reMain = re.connect()
 
   websocket.createServer({ server: server }, handleWs)
 
   function handleWs (stream) {
     auth(stream.socket.upgradeReq, opt, (error) => {
-      onChanges(dbInstance, changes)
+      function onPut (key) { onChange(re, key, 'put') }
+      function onDel (key) { onChange(re, key, 'del') }
+      function onBatch (ary) {
+        ary.forEach(function (item) {
+          onChange(re, item.key, item.type)
+        })
+      }
+
       if (error) {
         stream.socket.emit('error', error)
       } else {
-        var remote = multileveldown.client(opt.encoding)
         var local = multileveldown.server(dbInstance)
-        var remoteStream = remote.connect()
+        var re = rangeEmitter()
+        emitters.push(re)
+        var reStream = re.connect()
 
-        function replicate (key, value) { remote.put(key, value) }
-        changes.on('change', replicate)
-        eos(stream, changes.removeListener.bind(changes, 'change', replicate))
-        dbInstance.put('started', new Date())
+        dbInstance.on('put', onPut)
+        dbInstance.on('del', onDel)
+        dbInstance.on('batch', onBatch)
 
-        remoteStream.on('data', stream.write.bind(stream))
-        stream.on('data', remoteStream.write.bind(remoteStream))
+        eos(stream, function () {
+          dbInstance.removeListener('put', onPut)
+          dbInstance.removeListener('del', onDel)
+          dbInstance.removeListener('batch', onBatch)
+        })
 
+        reStream.on('data', stream.write.bind(stream))
         local.on('data', stream.write.bind(stream))
-        stream.on('data', local.write.bind(local))
+
+        stream.on('data', function (data) {
+          local.write(data)
+          reStream.write(data)
+          reMain.write(data)
+        })
       }
     })
   }
@@ -61,27 +89,4 @@ function createServer (port, opt) {
     })
   }
   return server
-}
-
-function onChanges (db, ee) {
-  ee = ee || new EventEmitter()
-  if (!db.db._put.hijacked) {
-    var put = db.db._put.bind(db.db)
-    db.db._put = function (key, value, opt, cb) {
-      if (!opt && !cb) cb = function () {}
-      function done (cb) {
-        return function (err) {
-          if (!err) ee.emit('change', key, value)
-          cb(err)
-        }
-      }
-      function wrap (opt) {
-        if (typeof opt === 'function') opt = done(opt)
-        return opt
-      }
-      put(key, value, wrap(opt), wrap(cb))
-    }
-    db.db._put.hijacked = true
-  }
-  return ee
 }
