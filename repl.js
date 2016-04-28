@@ -1,3 +1,6 @@
+window.onload = function () {
+  require('console-log')
+}
 var websocket = require('websocket-stream')
 var multileveldown = require('multileveldown')
 var sub = require('subleveldown')
