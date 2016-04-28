@@ -1,4 +1,4 @@
-var replAuth = require('./repl_auth')
+var auth = require('./auth')
 var websocket = require('websocket-stream')
 var multileveldown = require('multileveldown')
 var http = require('http')
@@ -14,7 +14,7 @@ function create (server, name, opt) {
   websocket.createServer({ server: server }, handleWs)
 
   function handleWs (stream) {
-    replAuth(stream.socket.upgradeReq, opt, (error) => {
+    auth(stream.socket.upgradeReq, opt, (error) => {
       if (error) {
         stream.socket.emit('error', error)
       } else {

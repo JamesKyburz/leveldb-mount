@@ -1,8 +1,9 @@
 var options = require('./options')
-module.exports = replAuth
+module.exports = auth
 
-function replAuth (q, opt, cb) {
+function auth (q, opt, cb) {
   opt = options(opt)
+  if (opt.auth) return opt.auth(q, cb)
   if (!opt.replCredentials) cb(new Error('authorisation needed'))
   if (q.headers.authorization) {
     var sent = new Buffer(q.headers.authorization.slice(6), 'base64').toString()

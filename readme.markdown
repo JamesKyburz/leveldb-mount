@@ -55,6 +55,7 @@ var opt = {
 * `opt.replCredentials` is only needed if you want the repl.
 * `opt.encoding` defaults to `utf8` for keys and `json` for values.
 * `opt.dbPath` has to contain a value.
+* `opt.auth` optional auth function (request, cb).
 
 `encoding` is passed to the repl!
 
