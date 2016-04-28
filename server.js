@@ -32,7 +32,7 @@ function create (server, name, opt) {
     })
   })
 
-  var reMain = re.connect()
+  var reMainStream = re.connect()
 
   websocket.createServer({ server: server }, handleWs)
 
@@ -49,7 +49,7 @@ function create (server, name, opt) {
       if (error) {
         stream.socket.emit('error', error)
       } else {
-        var local = multileveldown.server(dbInstance)
+        var dbStream = multileveldown.server(dbInstance)
         var re = rangeEmitter()
         emitters.push(re)
         var reStream = re.connect()
@@ -65,12 +65,12 @@ function create (server, name, opt) {
         })
 
         reStream.on('data', stream.write.bind(stream))
-        local.on('data', stream.write.bind(stream))
+        dbStream.on('data', stream.write.bind(stream))
 
         stream.on('data', function (data) {
-          local.write(data)
+          dbStream.write(data)
           reStream.write(data)
-          reMain.write(data)
+          reMainStream.write(data)
         })
       }
     })
