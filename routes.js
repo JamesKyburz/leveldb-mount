@@ -1,4 +1,4 @@
-var replAuth = require('./repl_auth')
+var auth = require('./auth')
 var browserify = require('browserify')
 var path = require('path')
 var options = require('./options')
@@ -25,7 +25,7 @@ function routes (name, opt) {
 
 function handleAuth (fn, opt) {
   return (q, r, params, splat) => {
-    replAuth(q, opt, (error) => {
+    auth(q, opt, (error) => {
       if (error) {
         r.writeHead(401, { 'WWW-Authenticate': 'Basic' })
         r.end(error.message)

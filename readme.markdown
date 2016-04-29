@@ -20,6 +20,12 @@ leveldb.server(port, opt) // see options
 
 Note if no credentials are given the repl is not available.
 
+# client
+
+browserifying this module gives you a client
+
+see examples
+
 # routes
 routes.js using [http-hash] (but can use router of choice)
 ```javascript

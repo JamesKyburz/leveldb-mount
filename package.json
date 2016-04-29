@@ -12,7 +12,7 @@
     "name": "James Kyburz",
     "email": "james.kyburz@gmail.com"
   },
-  "browser": "repl.js",
+  "browser": "./client.js",
   "scripts": {
     "prepublish": "standard"
   },
@@ -29,6 +29,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "concat-stream": "1.5.1",
     "standard": "6.0.8"
   }
 }
