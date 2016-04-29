@@ -12,13 +12,15 @@
     "name": "James Kyburz",
     "email": "james.kyburz@gmail.com"
   },
-  "browser": "repl.js",
+  "browser": "./client.js",
   "scripts": {
     "prepublish": "standard"
   },
   "dependencies": {
     "browserify": "13.0.0",
+    "console-log": "1.0.0",
     "debug": "2.2.0",
+    "end-of-stream": "1.1.0",
     "level-party": "3.0.4",
     "multileveldown": "2.1.1",
     "replacestream": "4.0.0",
@@ -27,6 +29,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "concat-stream": "1.5.1",
     "standard": "6.0.8"
   }
 }

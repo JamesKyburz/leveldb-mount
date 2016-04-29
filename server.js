@@ -5,12 +5,17 @@ var http = require('http')
 var db = require('./db')
 var options = require('./options')
 var routes = require('./routes')
+var rangeEmitter = require('level-range-emitter').server
 
 module.exports = create
 
 function create (server, name, opt) {
   opt = options(name, opt)
   if (typeof server === 'number') return create(createServer(server, opt), opt)
+
+  var dbInstance = db(opt)
+  var session = rangeEmitter(dbInstance)
+
   websocket.createServer({ server: server }, handleWs)
 
   function handleWs (stream) {
@@ -18,7 +23,8 @@ function create (server, name, opt) {
       if (error) {
         stream.socket.emit('error', error)
       } else {
-        stream.pipe(multileveldown.server(db(opt))).pipe(stream)
+        var dbStream = multileveldown.server(dbInstance)
+        session(dbStream, stream)
       }
     })
   }
