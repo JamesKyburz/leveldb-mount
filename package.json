@@ -17,7 +17,7 @@
     "prepublish": "standard"
   },
   "dependencies": {
-    "browserify": "13.0.0",
+    "browserify": "13.0.1",
     "console-log": "1.0.0",
     "debug": "2.2.0",
     "end-of-stream": "1.1.0",
