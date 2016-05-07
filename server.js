@@ -14,9 +14,11 @@ function create (server, name, opt) {
   if (typeof server === 'number') return create(createServer(server, opt), opt)
 
   var dbInstance = db(opt)
-  var session = rangeEmitter(dbInstance)
+  var lre = rangeEmitter(dbInstance)
 
   websocket.createServer({ server: server }, handleWs)
+
+  return lre.emitter
 
   function handleWs (stream) {
     auth(stream.socket.upgradeReq, opt, (error) => {
@@ -24,7 +26,7 @@ function create (server, name, opt) {
         stream.socket.emit('error', error)
       } else {
         var dbStream = multileveldown.server(dbInstance)
-        session(dbStream, stream)
+        lre.session(dbStream, stream)
       }
     })
   }
