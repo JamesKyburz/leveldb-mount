@@ -14,7 +14,8 @@
   },
   "browser": "./client.js",
   "scripts": {
-    "prepublish": "standard"
+    "prepublish": "standard",
+    "preversion": "standard"
   },
   "dependencies": {
     "browserify": "13.0.1",
