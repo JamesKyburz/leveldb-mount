@@ -12,9 +12,10 @@ server.on('request', (q, r) => {
     ps.stdout.pipe(concat((js) =>
       r.end(`<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body><script>${js}</script></body></html>`)
     ))
+
     ps.stdin.write(`
       var opt = ${JSON.stringify(opt)}
-      var client = require('./')(opt)
+      var client = require('../')(opt)
       window.db = client.db
       client.emitter.subscribe((key, type) => console.log('onchange:%s type:%s', key, type))
     `)
