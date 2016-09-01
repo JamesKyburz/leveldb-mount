@@ -27,7 +27,7 @@
     "multileveldown": "2.2.0",
     "replacestream": "4.0.2",
     "subleveldown": "2.1.0",
-    "websocket-stream": "3.2.1"
+    "websocket-stream": "3.3.0"
   },
   "license": "MIT",
   "devDependencies": {
