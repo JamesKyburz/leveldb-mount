@@ -31,7 +31,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "concat-stream": "1.5.1",
+    "concat-stream": "1.5.2",
     "standard": "8.0.0"
   }
 }
