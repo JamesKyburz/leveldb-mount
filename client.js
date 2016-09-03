@@ -32,7 +32,7 @@ function client (opt) {
       var ws = websocket(url)
       var remote = db.connect()
       re.session(remote, ws)
-      ws.on('close', window.setTimeout.bind(window, connect, retryTimeout))
+      ws.on('close', setTimeout.bind(null, connect, retryTimeout))
     })()
   }
 
