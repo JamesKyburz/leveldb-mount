@@ -25,6 +25,8 @@ function create (name, opt) {
     var value = sub(db, namespace, encoding)
     value.on('put', (key, value) => debug(`db:put:${namespace} key: %s value: %j`, key, value))
     value.on('error', (err) => debug(`db:put:${namespace} error: %j`, err))
+    value.on('batch', (ary) => debug(`db:batch:${namespace} ary: %j`, ary))
+    value.on('del', (key, value) => debug(`db:del:${namespace} key: %s value: %j`, key, value))
     sublevels[namespace] = value
     return value
   }
