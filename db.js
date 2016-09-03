@@ -27,6 +27,17 @@ function create (name, opt) {
     value.on('error', (err) => debug(`db:put:${namespace} error: %j`, err))
     value.on('batch', (ary) => debug(`db:batch:${namespace} ary: %j`, ary))
     value.on('del', (key, value) => debug(`db:del:${namespace} key: %s value: %j`, key, value))
+
+    ;['put', 'del'].forEach((event) =>
+      value.on(event, (key, value) => db.emit(event, `${value.db.prefix}${key}`, value))
+    )
+
+    value.on('batch', (ary) => {
+      ary = ary.slice()
+      ary.forEach((item) => { item.key = value.db.prefix + item.key })
+      db.emit('batch', ary)
+    })
+
     sublevels[namespace] = value
     return value
   }
