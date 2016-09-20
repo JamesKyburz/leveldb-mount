@@ -29,7 +29,7 @@ function create (name, opt) {
     value.on('del', (key, value) => debug(`db:del:${namespace} key: %s value: %j`, key, value))
 
     ;['put', 'del'].forEach((event) =>
-      value.on(event, (key, value) => db.emit(event, `${value.db.prefix}${key}`, value))
+      value.on(event, (key, changedValue) => db.emit(event, `${value.db.prefix}${key}`, changedValue))
     )
 
     value.on('batch', (ary) => {
