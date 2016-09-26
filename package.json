@@ -32,6 +32,6 @@
   "license": "MIT",
   "devDependencies": {
     "concat-stream": "1.5.2",
-    "standard": "8.1.0"
+    "standard": "8.2.0"
   }
 }
