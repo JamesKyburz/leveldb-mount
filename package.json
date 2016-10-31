@@ -23,7 +23,7 @@
     "debug": "2.2.0",
     "end-of-stream": "1.1.0",
     "level-party": "3.0.4",
-    "level-range-emitter": "2.0.4",
+    "level-range-emitter": "2.0.5",
     "multileveldown": "2.2.0",
     "replacestream": "4.0.2",
     "subleveldown": "2.1.0",
