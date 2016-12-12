@@ -5,7 +5,7 @@ function options (name, opt) {
     opt = name
     name = ''
   }
-  return Object.assign({
+  opt = Object.assign({
     encoding: {
       keyEncoding: 'utf8',
       valueEncoding: 'json'
@@ -13,4 +13,6 @@ function options (name, opt) {
     dbPath: name || '',
     replCredentials: ''
   }, opt || {})
+  if (!opt.dbPath && name) opt.dbPath = name
+  return opt
 }
