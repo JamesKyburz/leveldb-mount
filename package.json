@@ -20,7 +20,7 @@
   "dependencies": {
     "browserify": "13.1.1",
     "console-log": "1.0.0",
-    "debug": "2.3.3",
+    "debug": "2.4.1",
     "end-of-stream": "1.1.0",
     "level-party": "3.0.4",
     "level-range-emitter": "2.0.5",
