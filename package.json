@@ -18,7 +18,7 @@
     "preversion": "standard"
   },
   "dependencies": {
-    "browserify": "14.0.0",
+    "browserify": "14.1.0",
     "console-log": "1.0.0",
     "debug": "2.6.1",
     "end-of-stream": "1.1.0",
