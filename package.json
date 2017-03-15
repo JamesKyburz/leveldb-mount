@@ -21,7 +21,7 @@
     "browserify": "14.1.0",
     "console-log": "1.0.0",
     "debug": "2.6.3",
-    "end-of-stream": "1.2.0",
+    "end-of-stream": "1.4.0",
     "level-party": "3.0.4",
     "level-range-emitter": "2.0.9",
     "multileveldown": "2.3.0",
