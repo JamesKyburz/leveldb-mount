@@ -67,6 +67,7 @@ var opt = {
 
 # example
 ```
+npm install concat-stream
 node example/index.js
 ```
 

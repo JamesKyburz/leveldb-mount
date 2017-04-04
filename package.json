@@ -19,9 +19,7 @@
   },
   "dependencies": {
     "browserify": "14.1.0",
-    "console-log": "1.0.0",
     "debug": "2.6.3",
-    "end-of-stream": "1.4.0",
     "level-party": "3.0.4",
     "level-range-emitter": "2.0.14",
     "multileveldown": "2.3.0",
@@ -31,7 +29,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "concat-stream": "1.6.0",
     "standard": "9.0.2"
   }
 }

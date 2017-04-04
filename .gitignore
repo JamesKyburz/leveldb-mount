@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 npm-debug.log
+demo
 test
 examples/test
 examples/demo
