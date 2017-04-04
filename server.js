@@ -23,7 +23,7 @@ function create (server, name, opt) {
   function handleWs (stream) {
     auth(stream.socket.upgradeReq, opt, (error) => {
       if (error) {
-        stream.socket.emit('error', error)
+        stream.destroy()
       } else {
         var dbStream = multileveldown.server(dbInstance)
         lre.session(dbStream, stream)
