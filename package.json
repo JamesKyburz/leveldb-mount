@@ -18,7 +18,7 @@
     "preversion": "standard"
   },
   "dependencies": {
-    "browserify": "14.1.0",
+    "browserify": "14.3.0",
     "debug": "2.6.3",
     "level-party": "3.0.4",
     "level-range-emitter": "2.0.14",
