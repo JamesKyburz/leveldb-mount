@@ -6,7 +6,7 @@ function auth (q, opt, cb) {
   if (opt.auth) return opt.auth(q, cb)
   if (!opt.replCredentials) cb(new Error('authorisation needed'))
   if (q.headers.authorization) {
-    var sent = new Buffer(q.headers.authorization.slice(6), 'base64').toString()
+    var sent = Buffer.from(q.headers.authorization.slice(6), 'base64').toString()
     if (sent === opt.replCredentials) return cb(null)
   }
   cb(new Error('authorisation needed'))
