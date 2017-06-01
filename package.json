@@ -1,7 +1,7 @@
 {
   "name": "leveldb-mount",
   "description": "leveldb backend with repl",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "keywords": "leveldb repl",
   "main": "index.js",
   "repository": {
