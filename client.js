@@ -21,15 +21,24 @@ function client (opt) {
   var retryTimeout = opt.retry || 3000
 
   opt.retry = true
-  var cacheKey = opt.keyEncoding + opt.valueEncoding
+  var cacheKey = opt.keyEncoding + opt.valueEncoding + url
   var db = dbs[cacheKey]
   var re = res[cacheKey]
+  var close = false
+  var ws
+  var destroy = function () {
+    delete res[cacheKey]
+    delete dbs[cacheKey]
+    if (ws) ws.destroy()
+    close = true
+  }
 
   if (!dbs[cacheKey]) {
     db = dbs[cacheKey] = multileveldown.client(opt)
     re = res[cacheKey] = rangeEmitter(db)
     ;(function connect () {
-      var ws = websocket(url)
+      if (close) return
+      ws = websocket(url)
       var remote = db.connect()
       re.session(remote, ws)
       ws.on('close', setTimeout.bind(null, connect, retryTimeout))
@@ -38,6 +47,7 @@ function client (opt) {
 
   return {
     db: db,
-    emitter: re.emitter
+    emitter: re.emitter,
+    close: destroy
   }
 }
