@@ -20,8 +20,8 @@ function create (server, name, opt) {
 
   return lre.emitter
 
-  function handleWs (stream) {
-    auth(stream.socket.upgradeReq, opt, (error) => {
+  function handleWs (stream, request) {
+    auth(request, opt, (error) => {
       if (error) {
         stream.destroy()
       } else {
