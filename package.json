@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "browserify": "14.4.0",
-    "debug": "3.0.1",
+    "debug": "3.1.0",
     "level-party": "3.0.4",
     "level-range-emitter": "2.0.16",
     "multileveldown": "2.3.0",
