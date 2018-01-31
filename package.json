@@ -22,7 +22,7 @@
     "debug": "3.1.0",
     "level-party": "3.0.4",
     "level-range-emitter": "2.0.16",
-    "multileveldown": "2.3.0",
+    "multileveldown": "2.3.1",
     "replacestream": "4.0.3",
     "subleveldown": "2.1.0",
     "websocket-stream": "5.1.1"
