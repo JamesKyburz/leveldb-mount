@@ -14,10 +14,10 @@ function routes (name, opt) {
     js: handleAuth(
       (q, r, params) =>
         browserify({ debug: true })
-        .add(path.join(__dirname, '/repl.js'))
-        .bundle()
-        .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify(replaceOptions)))
-        .pipe(r)
+          .add(path.join(__dirname, '/repl.js'))
+          .bundle()
+          .pipe(replaceStream('\'replacedbyserver\'', JSON.stringify(replaceOptions)))
+          .pipe(r)
       , opt
     )
   }
