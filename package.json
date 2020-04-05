@@ -24,7 +24,7 @@
     "level-range-emitter": "3.0.0",
     "multileveldown": "3.0.0",
     "replacestream": "4.0.3",
-    "subleveldown": "4.1.4",
+    "subleveldown": "5.0.0",
     "websocket-stream": "5.5.1"
   },
   "license": "MIT",
